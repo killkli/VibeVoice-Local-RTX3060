@@ -13,7 +13,7 @@ import gradio as gr
 
 # Local imports
 from config import MAX_AUDIO_DURATION, VOICES_DIR
-from utils import adjust_voice_speed, convert_to_16_bit_wav
+from utils import adjust_voice_speed, convert_to_16_bit_wav, post_process_audio
 
 # VibeVoice imports
 from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor
@@ -263,12 +263,18 @@ class VibeVoiceDemo:
             sf.write(wav_path, full_audio_16, 24000)
             
             mp3_path = wav_path.replace(".wav", ".mp3")
-            try:
-                AudioSegment.from_wav(wav_path).export(mp3_path, format="mp3")
-                out_path = mp3_path
-            except Exception as e:
-                print(f"MP3 conversion failed: {e}. Returning WAV.")
-                out_path = wav_path
+            
+            # Use post-processing if possible, otherwise fallback to simple conversion
+            if post_process_audio(wav_path, mp3_path):
+                 out_path = mp3_path
+            else:
+                 try:
+                     print("Falling back to standard MP3 conversion...")
+                     AudioSegment.from_wav(wav_path).export(mp3_path, format="mp3")
+                     out_path = mp3_path
+                 except Exception as e:
+                     print(f"MP3 conversion failed: {e}. Returning WAV.")
+                     out_path = wav_path
             
             yield None, out_path, "✅ Done! Download ready."
         else:
