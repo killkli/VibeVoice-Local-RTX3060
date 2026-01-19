@@ -1,0 +1,22 @@
+[project]
+name = "vibevoice-local-rtx3060"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "accelerate>=1.6.0",
+    "diffusers>=0.36.0",
+    "gradio>=5.50.0",
+    "librosa>=0.11.0",
+    "numpy>=2.3.5",
+    "pydub>=0.25.1",
+    "soundfile>=0.13.1",
+    "torch>=2.9.1",
+    "torchaudio>=2.9.1",
+    "transformers>=4.51.3",
+    "vibevoice",
+]
+
+[tool.uv.sources]
+vibevoice = { git = "https://github.com/vibevoice-community/VibeVoice.git" }
