@@ -12,8 +12,8 @@ from pydub import AudioSegment
 import gradio as gr
 
 # Local imports
-from .config import MAX_AUDIO_DURATION, VOICES_DIR
-from .utils import adjust_voice_speed, convert_to_16_bit_wav
+from config import MAX_AUDIO_DURATION, VOICES_DIR
+from utils import adjust_voice_speed, convert_to_16_bit_wav
 
 # VibeVoice imports
 from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor

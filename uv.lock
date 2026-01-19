@@ -2544,7 +2544,7 @@ wheels = [
 [[package]]
 name = "vibevoice"
 version = "0.1.0"
-source = { directory = "../VibeVoice" }
+source = { git = "https://github.com/vibevoice-community/VibeVoice.git#b9d561240ada3ee5d8fb5812bebb32f7ecfd97ae" }
 dependencies = [
     { name = "absl-py" },
     { name = "accelerate" },
@@ -2564,30 +2564,6 @@ dependencies = [
     { name = "tqdm" },
     { name = "transformers" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "absl-py" },
-    { name = "accelerate", specifier = "==1.6.0" },
-    { name = "aiortc" },
-    { name = "av" },
-    { name = "datasets", specifier = "==3.5.0" },
-    { name = "diffusers" },
-    { name = "fastapi", marker = "extra == 'streaming-web'" },
-    { name = "gradio", specifier = "==5.50.0" },
-    { name = "librosa" },
-    { name = "llvmlite", specifier = ">=0.40.0" },
-    { name = "ml-collections" },
-    { name = "numba", specifier = ">=0.57.0" },
-    { name = "numpy" },
-    { name = "peft" },
-    { name = "scipy" },
-    { name = "torch" },
-    { name = "tqdm" },
-    { name = "transformers", specifier = "==4.51.3" },
-    { name = "uvicorn", extras = ["standard"], marker = "extra == 'streaming-web'" },
-]
-provides-extras = ["streaming-web"]
 
 [[package]]
 name = "vibevoice-local-rtx3060"
@@ -2619,7 +2595,7 @@ requires-dist = [
     { name = "torch", specifier = ">=2.9.1" },
     { name = "torchaudio", specifier = ">=2.9.1" },
     { name = "transformers", specifier = ">=4.51.3" },
-    { name = "vibevoice", directory = "../VibeVoice" },
+    { name = "vibevoice", git = "https://github.com/vibevoice-community/VibeVoice.git" },
 ]
 
 [[package]]
