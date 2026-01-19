@@ -293,8 +293,33 @@ class VibeVoiceDemo:
             return "Error reading audio file.", gr.update()
             
         clean_name = "".join(x for x in name if x.isalnum() or x in "-_")
+        if not clean_name:
+             return "Invalid name. Please use alphanumeric characters.", gr.update()
+
+        # Ensure directory exists
+        try:
+            os.makedirs(VOICES_DIR, exist_ok=True)
+        except Exception as e:
+            print(f"Error creating directory {VOICES_DIR}: {e}")
+            return f"System Error: Could not create voices directory.", gr.update()
+
         save_path = os.path.join(VOICES_DIR, f"{clean_name}.wav")
-        sf.write(save_path, audio, 24000)
+        # Normalize path for Windows compatibility
+        save_path = os.path.abspath(save_path) 
+        
+        try:
+            # Try to remove if exists to avoid file lock issues on Windows
+            if os.path.exists(save_path):
+                try:
+                    os.remove(save_path)
+                except Exception as e:
+                    print(f"Warning: Could not remove existing file {save_path}: {e}")
+            
+            sf.write(save_path, audio, 24000)
+        except Exception as e:
+            print(f"Error saving voice to {save_path}: {e}")
+            traceback.print_exc()
+            return f"Error saving voice: {str(e)}", gr.update()
         
         self.setup_voice_presets()
         
