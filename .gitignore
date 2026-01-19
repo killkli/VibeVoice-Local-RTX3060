@@ -37,3 +37,4 @@ outputs/
 *.mp3
 .DS_Store
 VibeVoice/
+.serena/
