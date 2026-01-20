@@ -19,4 +19,5 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MAX_AUDIO_DURATION = 15.0 # seconds
 
 # Model Path (Default)
-DEFAULT_MODEL_PATH = "vibevoice/VibeVoice-1.5B" # 1.5B fits in 6GB roughly. 0.5B is safer.
+# DEFAULT_MODEL_PATH = "vibevoice/VibeVoice-1.5B" # 1.5B fits in 6GB roughly. 0.5B is safer.
+DEFAULT_MODEL_PATH = os.path.abspath(os.path.join(PROJECT_ROOT, "../models/VibeVoice1.5B")) # 1.5B fits in 6GB roughly. 0.5B is safer.

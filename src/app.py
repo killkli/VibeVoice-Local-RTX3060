@@ -108,7 +108,7 @@ def run_app():
         stop_btn.click(fn=demo.stop_audio_generation, outputs=[])
     
     # Launch
-    app.launch(server_port=7860, share=False)
+    app.launch(server_name='0.0.0.0',server_port=7860, share=False)
 
 if __name__ == "__main__":
     run_app()
