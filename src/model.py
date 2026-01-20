@@ -14,6 +14,7 @@ import gradio as gr
 # Local imports
 from config import MAX_AUDIO_DURATION, VOICES_DIR
 from utils import adjust_voice_speed, convert_to_16_bit_wav, post_process_audio
+from locales import TRANS_TC
 
 # VibeVoice imports
 from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor
@@ -135,7 +136,7 @@ class VibeVoiceDemo:
         self.stop_generation = False
         self.is_generating = True
         
-        if not script.strip(): raise gr.Error("Please provide a script.")
+        if not script.strip(): raise gr.Error(TRANS_TC["msg_error_script"])
         script = script.replace("’", "'")
         selected_speakers = speakers_list[:num_speakers]
         
@@ -236,7 +237,7 @@ class VibeVoiceDemo:
                 
                 buffered_audio_16 = convert_to_16_bit_wav(buffered_audio)
                 
-                yield (24000, buffered_audio_16), None, "Generating..."
+                yield (24000, buffered_audio_16), None, TRANS_TC["msg_generating"]
                 buffer = []
                 current_buffer_len = 0
             
@@ -246,7 +247,7 @@ class VibeVoiceDemo:
              buffered_audio = np.concatenate(buffer)
              if speed_factor != 1.0:
                  buffered_audio = adjust_voice_speed(buffered_audio, speed_factor)
-             yield (24000, convert_to_16_bit_wav(buffered_audio)), None, "Finishing..."
+             yield (24000, convert_to_16_bit_wav(buffered_audio)), None, TRANS_TC["msg_finishing"]
         
         if all_chunks:
             full_audio = np.concatenate(all_chunks)
@@ -276,9 +277,9 @@ class VibeVoiceDemo:
                      print(f"MP3 conversion failed: {e}. Returning WAV.")
                      out_path = wav_path
             
-            yield None, out_path, "✅ Done! Download ready."
+            yield None, out_path, TRANS_TC["msg_done"]
         else:
-            yield None, None, "❌ No audio generated."
+            yield None, None, TRANS_TC["msg_no_audio"]
 
     def stop_audio_generation(self):
         self.stop_generation = True
@@ -286,7 +287,7 @@ class VibeVoiceDemo:
 
     def register_custom_voice(self, name, audio_path):
         if not name or not audio_path:
-            return "Please provide both a name and an audio file.", gr.update()
+            return TRANS_TC["msg_error_name_req"] if not name else TRANS_TC["msg_error_audio_req"], gr.update()
             
         audio = self.read_audio(audio_path)
         if len(audio) == 0:
@@ -319,11 +320,11 @@ class VibeVoiceDemo:
         except Exception as e:
             print(f"Error saving voice to {save_path}: {e}")
             traceback.print_exc()
-            return f"Error saving voice: {str(e)}", gr.update()
+            return TRANS_TC["msg_error_save"].format(str(e)), gr.update()
         
         self.setup_voice_presets()
         
-        msg = f"✅ Voice '{clean_name}' saved! It will appear in speaker dropdowns."
+        msg = TRANS_TC["msg_saved"].format(clean_name)
         
         new_choices = list(self.available_voices.keys())
         return msg, gr.update(choices=new_choices), gr.update(choices=new_choices), gr.update(choices=new_choices), gr.update(choices=new_choices)
